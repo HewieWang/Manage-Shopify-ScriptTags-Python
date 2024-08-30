@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Shopify ScriptTags</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="container mx-auto">
+        <h1 class="text-2xl font-bold mb-4">Manage Shopify ScriptTags</h1>
+
+        <!-- Existing ScriptTags -->
+        <div class="bg-white p-4 rounded shadow mb-6">
+            <h2 class="text-xl font-semibold mb-2">Existing Resources</h2>
+            <ul class="list-disc pl-5">
+                {% for tag in script_tags %}
+                    <li class="mb-2">
+                        <p><strong>URL:</strong> <span class="text-blue-600">{{ tag.src }}</span></p>
+                        <p><strong>ID:</strong> {{ tag.id }}</p>
+                        <p><strong>Event:</strong> {{ tag.event }}</p>
+                        <form action="{{ url_for('delete_script_tag', script_id=tag.id) }}" method="post">
+                            <button type="submit" class="text-red-500 hover:text-red-700">Delete</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <p class="text-gray-500">No ScriptTags found.</p>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Add New ScriptTag -->
+        <div class="bg-white p-4 rounded shadow">
+            <h2 class="text-xl font-semibold mb-2">Add New ScriptTag</h2>
+            <form action="{{ url_for('add_script_tag') }}" method="post">
+                <label for="script_src" class="block text-gray-700">Script URL:</label>
+                <input type="url" id="script_src" name="script_src" class="w-full p-2 border rounded mt-2 mb-4" placeholder="https://example.com/script.js" required>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add ScriptTag</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
